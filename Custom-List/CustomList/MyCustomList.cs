@@ -7,24 +7,29 @@ using System.Threading.Tasks;
 
 namespace CustomList
 {
-    public class MyCustomList<T> : IEnumerable<T>
+    public class MyCustomList<T> : IEnumerable<T> where T : IComparable<T>
     {
         //member variables
         public T[] myArr;
-        private int countMyArr;
+        private int count;
+        private int capacity;
 
-        public int Count { get { return countMyArr; } }
+        public int Count { get { return count; } }
+        public int Capacity { get { return capacity; } }
 
         //constructors
         public MyCustomList()
         {
-            countMyArr = 0;
+            count = 0;
+            capacity = 0;
             myArr = new T[0];
         }
         public MyCustomList(int length)
         {
-            countMyArr = length;
-            myArr = new T[length];
+            count = length;
+            if (length <= 4) capacity = 4;
+            else capacity = (int)Math.Pow(2, (int)Math.Ceiling(Math.Log(length) / Math.Log(2)));
+            myArr = new T[capacity];
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -35,51 +40,73 @@ namespace CustomList
             }
         }
 
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable<T>)myArr).GetEnumerator();
+        }
+
         //methods
         public void Add(T item)
         {
-            countMyArr = countMyArr + 1;
-            MyCustomList<T> replace = new MyCustomList<T>(countMyArr);
-            for(int i = 0; i < countMyArr - 1; i++)
+            count = count + 1;
+            if (count <= capacity)
+            {
+                myArr[count-1] = item;
+            }
+            else
+            {
+                ReplaceWithLargerArray(item);
+            }
+        }
+        private void ReplaceWithLargerArray(T item)
+        {
+            MyCustomList<T> replace = new MyCustomList<T>(count);
+            for (int i = 0; i < count - 1; i++)
             {
                 replace.myArr[i] = myArr[i];
             }
-            replace.myArr[countMyArr - 1] = item;
+            replace.myArr[count - 1] = item;
             myArr = replace.myArr;
+            count = replace.Count;
+            capacity = replace.Capacity;
         }
         public bool Remove(T item)
         {
-            int length = countMyArr;
             bool removed = false;
-            MyCustomList<T> replace = new MyCustomList<T>();
-            for (int i = 0; i < length; i++)
+            
+            for (int i = 0; i < count; i++)
             {
-                if (myArr[i].Equals(item) && removed == false)
+                if (myArr[i].Equals(item))
                 {
                     removed = true;
-                    countMyArr--;
+                    RemoveAndShift(i);
+                    return removed;
                 }
-                else replace.Add(myArr[i]);
             }
-            myArr = replace.myArr;
             return removed;
         }
         public bool RemoveAll(T item)
         {
-            int length = countMyArr;
             bool removed = false;
-            MyCustomList<T> replace = new MyCustomList<T>();
-            for(int i = 0; i < length; i++)
+
+            for (int i = 0; i < count; i++)
             {
-                if(myArr[i].Equals(item))
+                if (myArr[i].Equals(item))
                 {
                     removed = true;
-                    countMyArr--;
+                    RemoveAndShift(i);
+                    i--;
                 }
-                else replace.Add(myArr[i]);
             }
-            myArr = replace.myArr;
             return removed;
+        }
+        private void RemoveAndShift(int index)
+        {
+            count--;
+            for (int j = index; j < count + 1; j++)
+            {
+                myArr[j] = myArr[j + 1];
+            }
         }
         public override string ToString()
         {
@@ -91,7 +118,6 @@ namespace CustomList
             {
                 return "EMPTY LIST";
             }
-
             if (myArr.GetType().Namespace == "System")
             {
                 for (int i = 0; i < Count; i++)
@@ -117,6 +143,7 @@ namespace CustomList
         public static MyCustomList<T> operator + (MyCustomList<T> list1, MyCustomList<T> list2)
         {
             MyCustomList<T> replace = new MyCustomList<T>(list1.Count + list2.Count);
+
             for(int i = 0; i < list1.Count; i++)
             {
                 replace.myArr[i] = list1.myArr[i];
@@ -125,22 +152,26 @@ namespace CustomList
             {
                 replace.myArr[list1.Count + j] = list2.myArr[j];
             }
-
             return replace;
         }
         public static MyCustomList<T> operator - (MyCustomList<T> list1, MyCustomList<T> list2)
         {
-            for(int i = 0; i < list1.Count; i++)
+            int i = 0;
+
+            while(i < list1.Count)
             {
-                for(int j = 0; j < list2.Count; j++)
+                int j = 0;
+                while(j < list2.Count)
                 {
                     if (list1.myArr[i].Equals(list2.myArr[j]))
                     {
                         list1.RemoveAll(list2.myArr[j]);
                         list2.RemoveAll(list2.myArr[j]);
-                        j = j - 1;
+                        j--;
                     }
+                    j++;
                 }
+                i++;
             }
             return list1;
         }
@@ -150,6 +181,7 @@ namespace CustomList
             int j = 0;
             int k = 0;
             MyCustomList<T> replace = new MyCustomList<T>(list1.Count + list2.Count);
+
             while(i < list1.Count + list2.Count)
             {
                 if(j < list1.Count)
@@ -167,10 +199,42 @@ namespace CustomList
             }
             return replace;
         }
-
-        IEnumerator IEnumerable.GetEnumerator()
+        public void SortAsc()
         {
-            return ((IEnumerable<T>)myArr).GetEnumerator();
+            for(int i = 1; i < Count; i++)
+            {
+                for(int j = 0; j < Count - 1; j++)
+                {
+                    if(myArr[j].CompareTo(myArr[j + 1]) >= 0)
+                    {
+                        SwapPosition(ref myArr[j], ref myArr[j + 1]);
+                    }
+                }
+            }
+        }
+
+        public void SwapPosition(ref T a, ref T b)
+        {
+            T temp = a;
+            a = b;
+            b = temp;
+        }
+    }
+    //Custom test object class
+    public class Car : IComparable<Car>
+    {
+        public int year; public string color; public double topSpeed;
+        public Car(int year, string color, double topSpeed)
+        {
+            this.year = year;
+            this.color = color;
+            this.topSpeed = topSpeed;
+        }
+
+        //sortable by year
+        public int CompareTo(Car other)
+        {
+            return year.CompareTo(other.year);
         }
     }
 }

@@ -4,22 +4,11 @@ using CustomList;
 
 namespace CustomListTest
 {
-    public class Car
-    {
-        public int year; public string color; public double topSpeed;
-        public Car(int year, string color, double topSpeed)
-        {
-            this.year = year;
-            this.color = color;
-            this.topSpeed = topSpeed;
-        }
-    }
-
     [TestClass]
-    public class UnitTest1
+    public class CustomListTest
     {
         [TestMethod]
-        public void TestConstruct1()
+        public void TestConstruct01()
         {
             //arrange
             MyCustomList<int> list = new MyCustomList<int>();
@@ -30,7 +19,7 @@ namespace CustomListTest
             Assert.AreEqual(0, list.Count);
         }
         [TestMethod]
-        public void TestConstruct2()
+        public void TestConstruct02()
         {
             //arrange
             int length = 40;
@@ -41,7 +30,7 @@ namespace CustomListTest
             Assert.AreEqual(40, list.Count);
         }
         [TestMethod]
-        public void TestConstruct3()
+        public void TestConstruct03()
         {
             //arrange
             MyCustomList<Car> list = new MyCustomList<Car>();
@@ -52,7 +41,7 @@ namespace CustomListTest
             Assert.AreEqual(0, list.Count);
         }
         [TestMethod]
-        public void TestConstruct4()
+        public void TestConstruct04()
         {
             int length = 40;
             MyCustomList<Car> list = new MyCustomList<Car>(length);
@@ -60,6 +49,76 @@ namespace CustomListTest
 
             //assert
             Assert.AreEqual(40, list.Count);
+        }
+        [TestMethod]
+        public void TestConstruct05()
+        {
+            int length = 9;
+            MyCustomList<Car> list = new MyCustomList<Car>(length);
+            //act
+
+            //assert
+            Assert.AreEqual(16, list.Capacity);
+        }
+        [TestMethod]
+        public void TestConstruct06()
+        {
+            int length = 8;
+            MyCustomList<Car> list = new MyCustomList<Car>(length);
+            //act
+
+            //assert
+            Assert.AreEqual(8, list.Capacity);
+        }
+        [TestMethod]
+        public void TestConstruct07()
+        {
+            int length = 1;
+            MyCustomList<Car> list = new MyCustomList<Car>(length);
+            //act
+
+            //assert
+            Assert.AreEqual(4, list.Capacity);
+        }
+        [TestMethod]
+        public void TestConstruct08()
+        {
+            int length = 4;
+            MyCustomList<Car> list = new MyCustomList<Car>(length);
+            //act
+
+            //assert
+            Assert.AreEqual(4, list.Capacity);
+        }
+        [TestMethod]
+        public void TestConstruct09()
+        {
+            int length = 20;
+            MyCustomList<Car> list = new MyCustomList<Car>(length);
+            //act
+
+            //assert
+            Assert.AreEqual(32, list.Capacity);
+        }
+        [TestMethod]
+        public void TestConstruct10()
+        {
+            int length = 1000;
+            MyCustomList<Car> list = new MyCustomList<Car>(length);
+            //act
+
+            //assert
+            Assert.AreEqual(1024, list.Capacity);
+        }
+        [TestMethod]
+        public void TestConstruct11()
+        {
+            int length = 1000000;
+            MyCustomList<Car> list = new MyCustomList<Car>(length);
+            //act
+
+            //assert
+            Assert.AreEqual(1048576, list.Capacity);
         }
 
         [TestMethod]
@@ -122,6 +181,20 @@ namespace CustomListTest
 
             //assert
             Assert.AreEqual(2, list.Count);
+        }
+        [TestMethod]
+        public void TestAdd6()
+        {
+            Car newCar = new Car(2017, "red", 124.5);
+            Car oldCar = new Car(1970, "black", 100.3);
+            MyCustomList<Car> list = new MyCustomList<Car>(2);
+            list.myArr[0] = newCar;
+            list.myArr[1] = oldCar;
+            //act
+            list.Add(newCar);
+
+            //assert
+            Assert.AreEqual(3, list.Count);
         }
         [TestMethod]
         public void TestCount1()
@@ -494,7 +567,7 @@ namespace CustomListTest
             Assert.AreEqual("EMPTY LIST", list.ToString());
         }
         [TestMethod]
-        public void AddLists1()
+        public void TestAddLists1()
         {
             //arrange
             MyCustomList<int> list1 = new MyCustomList<int>();
@@ -515,7 +588,7 @@ namespace CustomListTest
             Assert.AreEqual("1, 2, 3, 4, 5, 6", list3.ToString());
         }
         [TestMethod]
-        public void AddLists2()
+        public void TestAddLists2()
         {
             //arrange
             MyCustomList<int> list1 = new MyCustomList<int>();
@@ -533,7 +606,7 @@ namespace CustomListTest
             Assert.AreEqual("1, 2, 3", list3.ToString());
         }
         [TestMethod]
-        public void AddLists3()
+        public void TestAddLists3()
         {
             //arrange
             MyCustomList<int> list1 = new MyCustomList<int>();
@@ -554,7 +627,7 @@ namespace CustomListTest
             Assert.AreEqual(6, list3.Count);
         }
         [TestMethod]
-        public void AddLists4()
+        public void TestAddLists4()
         {
             //arrange
             MyCustomList<int> list1 = new MyCustomList<int>();
@@ -572,7 +645,7 @@ namespace CustomListTest
             Assert.AreEqual(3, list3.Count);
         }
         [TestMethod]
-        public void AddLists5()
+        public void TestAddLists5()
         {
             //arrange
             MyCustomList<int> list1 = new MyCustomList<int>();
@@ -590,7 +663,7 @@ namespace CustomListTest
             Assert.ReferenceEquals(list3, list1);
         }
         [TestMethod]
-        public void AddLists6()
+        public void TestAddLists6()
         {
             //arrange
             Car newCar = new Car(2017, "red", 124.5);
@@ -613,7 +686,7 @@ namespace CustomListTest
             Assert.AreEqual(6, list3.Count);
         }
         [TestMethod]
-        public void SubtractLists1()
+        public void TestSubtractLists01()
         {
             //arrange
             MyCustomList<int> list1 = new MyCustomList<int>();
@@ -634,7 +707,7 @@ namespace CustomListTest
             Assert.AreEqual("EMPTY LIST", list3.ToString());
         }
         [TestMethod]
-        public void SubtractLists2()
+        public void TestSubtractLists02()
         {
             //arrange
             MyCustomList<int> list1 = new MyCustomList<int>();
@@ -652,7 +725,7 @@ namespace CustomListTest
             Assert.AreEqual("1, 2, 3", list3.ToString());
         }
         [TestMethod]
-        public void SubtractLists3()
+        public void TestSubtractLists03()
         {
             //arrange
             MyCustomList<int> list1 = new MyCustomList<int>();
@@ -673,7 +746,7 @@ namespace CustomListTest
             Assert.AreEqual(0, list3.Count);
         }
         [TestMethod]
-        public void SubtractLists4()
+        public void TestSubtractLists04()
         {
             //arrange
             MyCustomList<int> list1 = new MyCustomList<int>();
@@ -691,7 +764,7 @@ namespace CustomListTest
             Assert.AreEqual(3, list3.Count);
         }
         [TestMethod]
-        public void SubtractLists5()
+        public void TestSubtractLists05()
         {
             //arrange
             MyCustomList<int> list1 = new MyCustomList<int>();
@@ -709,7 +782,7 @@ namespace CustomListTest
             Assert.AreEqual(list1, list3);
         }
         [TestMethod]
-        public void SubtractLists6()
+        public void TestSubtractLists06()
         {
             //arrange
             MyCustomList<int> list1 = new MyCustomList<int>();
@@ -728,7 +801,7 @@ namespace CustomListTest
             Assert.AreEqual("2, 3", list3.ToString());
         }
         [TestMethod]
-        public void SubtractLists7()
+        public void TestSubtractLists07()
         {
             //arrange
             MyCustomList<int> list1 = new MyCustomList<int>();
@@ -748,7 +821,7 @@ namespace CustomListTest
             Assert.AreEqual("1", list3.ToString());
         }
         [TestMethod]
-        public void SubtractLists8()
+        public void TestSubtractLists08()
         {
             //arrange
             Car newCar = new Car(2017, "red", 124.5);
@@ -770,7 +843,7 @@ namespace CustomListTest
             Assert.AreEqual("Car, Car", list3.ToString());
         }
         [TestMethod]
-        public void SubtractLists9()
+        public void TestSubtractLists09()
         {
             //arrange
             Car newCar = new Car(2017, "red", 124.5);
@@ -791,7 +864,7 @@ namespace CustomListTest
             Assert.AreEqual("EMPTY LIST", list3.ToString());
         }
         [TestMethod]
-        public void SubtractLists10()
+        public void TestSubtractLists10()
         {
             //arrange
             Car newCar = new Car(2017, "red", 124.5);
@@ -971,5 +1044,154 @@ namespace CustomListTest
             //assert
             Assert.AreEqual("1 2 3 ", result);
         }
+        [TestMethod]
+        public void TestIteration2()
+        {
+            //arrange
+            int count = 0;
+            MyCustomList<int> numbers;
+            numbers = new MyCustomList<int>();
+            for(int i = 0; i <1000; i++)
+            {
+                numbers.Add(i);
+            }
+
+            //act
+            foreach (int i in numbers)
+            {
+                count = count + 1;
+            }
+
+            //assert
+            Assert.AreEqual(1000, count);
+        }
+        [TestMethod]
+        public void TestIteration3()
+        {
+            //arrange
+            int count = 0;
+            MyCustomList<int> numbers;
+            numbers = new MyCustomList<int>();
+            for (int i = 0; i < 10000000; i++)
+            {
+                numbers.Add(i);
+            }
+
+            //act
+            foreach (int i in numbers)
+            {
+                count = count + 1;
+            }
+
+            //assert
+            Assert.AreEqual(10000000, count);
+        }
+        [TestMethod]
+        public void TestIteration4()
+        {
+            //arrange
+            int count = 0;
+            MyCustomList<int> numbers;
+            numbers = new MyCustomList<int>();
+
+            //act
+            foreach (int i in numbers)
+            {
+                count = count + 1;
+            }
+
+            //assert
+            Assert.AreEqual(0, count);
+        }
+        [TestMethod]
+        public void TestSort1()
+        {
+            //arrange
+            int count = 3;
+            MyCustomList<int> numbers;
+            numbers = new MyCustomList<int>();
+
+            for (int i = 0; i < count; i++)
+            {
+                numbers.Add(count - i);
+            }
+
+            //act
+            numbers.SortAsc();
+
+            //assert
+            Assert.AreEqual(1, numbers.myArr[0]);
+        }
+        [TestMethod]
+        public void TestSort2()
+        {
+            //arrange
+            int count = 25;
+            MyCustomList<int> numbers;
+            numbers = new MyCustomList<int>();
+            Random number = new Random();
+
+            for (int i = 0; i < count; i++)
+            {
+                numbers.Add(number.Next(0,100));
+            }
+
+            //act
+            numbers.SortAsc();
+
+            //assert
+            Assert.IsTrue(numbers.myArr[0] < numbers.myArr[count - 1]);
+        }
+        [TestMethod]
+        public void TestSort3()
+        {
+            //arrange
+            MyCustomList<string> letters;
+            letters = new MyCustomList<string>();
+            letters.Add("e");
+            letters.Add("z");
+            letters.Add("d");
+
+            //act
+            letters.SortAsc();
+
+            //assert
+            Assert.AreEqual("d, e, z", letters.ToString());
+        }
+        [TestMethod]
+        public void TestSort4()
+        {
+            //arrange
+            Car newCar = new Car(2017, "red", 124.5);
+            Car oldCar = new Car(1970, "black", 100.3);
+            MyCustomList<Car> cars = new MyCustomList<Car>();
+            cars.Add(newCar);
+            cars.Add(oldCar);
+            cars.Add(newCar);
+
+            //act
+            cars.SortAsc();
+
+            //assert
+            Assert.AreEqual(cars.myArr[1], cars.myArr[2]);
+        }
+        [TestMethod]
+        public void TestSort5()
+        {
+            //arrange
+            Car newCar = new Car(2017, "red", 124.5);
+            Car oldCar = new Car(1970, "black", 100.3);
+            MyCustomList<Car> cars = new MyCustomList<Car>();
+            cars.Add(newCar);
+            cars.Add(oldCar);
+            cars.Add(newCar);
+
+            //act
+            cars.SortAsc();
+
+            //assert
+            Assert.IsTrue(cars.myArr[0].year < cars.myArr[2].year);
+        }
+
     }
 }

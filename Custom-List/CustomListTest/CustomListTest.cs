@@ -1192,6 +1192,87 @@ namespace CustomListTest
             //assert
             Assert.IsTrue(cars.myArr[0].year < cars.myArr[2].year);
         }
+        [TestMethod]
+        public void TestIndex1()
+        {
+            //arrange
+            MyCustomList<int> list1 = new MyCustomList<int>();
 
+            //act
+            list1.Add(1);
+            list1.Add(2);
+            list1.Add(3);
+
+            //assert
+            Assert.AreEqual(1, list1[0]);
+        }
+        [TestMethod]
+        public void TestIndex2()
+        {
+            //arrange
+            MyCustomList<int> list1 = new MyCustomList<int>();
+
+            //act
+            list1.Add(1);
+            list1.Add(2);
+            list1.Add(3);
+
+            list1[2] = 5;
+
+            //assert
+            Assert.AreEqual(5, list1[2]);
+        }
+        [TestMethod]
+        public void TestIndex3()
+        {
+            //arrange
+            MyCustomList<string> list1 = new MyCustomList<string>();
+
+            //act
+            list1.Add("a");
+            list1.Add("b");
+            list1.Add("c");
+
+            //assert
+            Assert.AreEqual("a", list1[0]);
+        }
+        [TestMethod]
+        public void TestIndex4()
+        {
+            //arrange
+            Car newCar = new Car(2017, "red", 124.5);
+            Car oldCar = new Car(1970, "black", 100.3);
+            MyCustomList<Car> cars = new MyCustomList<Car>();
+            cars.Add(newCar);
+            cars.Add(oldCar);
+
+            //act
+            cars.Add(newCar);
+            cars.Add(oldCar);
+
+            cars[0].topSpeed = 200.5;
+
+            //assert
+            Assert.AreEqual(200.5, cars[0].topSpeed);
+        }
+        [TestMethod]
+        public void TestIndex5()
+        {
+            //arrange
+            Car newCar = new Car(2017, "red", 124.5);
+            Car oldCar = new Car(1970, "black", 100.3);
+            MyCustomList<Car> cars = new MyCustomList<Car>();
+            cars.Add(newCar);
+            cars.Add(oldCar);
+
+            //act
+            cars.Add(newCar);
+            cars.Add(oldCar);
+
+            cars[1].year = 1972;
+
+            //assert
+            Assert.AreEqual(1972, cars[1].year);
+        }
     }
 }

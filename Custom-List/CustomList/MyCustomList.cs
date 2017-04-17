@@ -13,20 +13,28 @@ namespace CustomList
         public T[] myArr;
         private int count;
         private int capacity;
+        private int index;
 
         public int Count { get { return count; } }
         public int Capacity { get { return capacity; } }
+        public T this[int index]
+        {
+            get { if (index >= 0 && index < count) return myArr[index]; else throw new System.ArgumentOutOfRangeException(); }
+            set { if (index >= 0 && index < count) myArr[index] = value; else throw new System.ArgumentOutOfRangeException(); }
+        }
 
         //constructors
         public MyCustomList()
         {
             count = 0;
+            index = 0;
             capacity = 0;
             myArr = new T[0];
         }
         public MyCustomList(int length)
         {
             count = length;
+            index = count - 1;
             if (length <= 4) capacity = 4;
             else capacity = (int)Math.Pow(2, (int)Math.Ceiling(Math.Log(length) / Math.Log(2)));
             myArr = new T[capacity];
